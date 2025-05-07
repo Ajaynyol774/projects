@@ -1,0 +1,305 @@
+# include <graphics.h>
+# include <dos.h>
+# include <stdio.h>
+# include <conio.h>
+# include <math.h>
+# include <process.h>
+
+void frame();
+void star_in(int, int, int, int, int, float, float);
+void line_at_angle(int, float, int);
+void beep(int, int);
+void clear (int, int, int, int, int);
+
+void main()
+{
+  int gdriver=DETECT,gmode,errorcode;
+  initgraph(&gdriver,&gmode,"c:\tc\bgi");
+  errorcode=graphresult();
+  if(errorcode!=grOk)
+  {
+    printf("
+Graphics error  %s",grapherrormsg(errorcode));
+    printf("
+press any key to halt.
+");
+    exit(1);
+  }
+  struct time t;
+  gettime(&t);
+  int key,k=0;
+  int midx,midy;
+  float hour;
+  midx=getmaxx()/2;
+  midy=getmaxy()/2;
+
+  frame();
+
+  while(1)
+  {
+    if(kbhit())
+    {
+      key=getch();
+      if(key==27)
+      break;
+    }
+    gettime(&t);
+
+    if(t.ti_hour>=12)
+    hour=t.ti_hour-12;
+
+    float ang_sec=t.ti_sec*6;
+    float ang_min=(t.ti_min*6)+(ang_sec/60);
+    float ang_hour=(hour*30)+(ang_min/12);
+
+    setcolor(4);
+    setfillstyle(1,9);
+    line_at_angle(150,ang_min,2);  //min
+    setcolor(12);
+    setfillstyle(1,4);
+    line_at_angle(130,ang_hour,3);  //hour
+    setcolor(14);
+    line_at_angle(170,ang_sec,1);  //sec
+    line_at_angle(20,180+ang_sec,1);  //sec
+
+    setfillstyle(1,4);
+    setcolor(13);
+//    fillellipse(midx,midy,2,2);
+    star_in(midx, midy+1, 6, 2, 4, 0, 0);
+    char tim[5];
+    struct time t;
+    int t_sec,t_min;
+    int x=520,y=460;
+    gettime(&t);
+    if(t.ti_hour>12)
+    {
+      outtextxy(x+80,y,"PM");
+      sprintf(tim,"%d",t.ti_hour-12);
+    }
+    else
+    {
+      outtextxy(x+80,y,"AM");
+      sprintf(tim,"%d",t.ti_hour);
+    }
+    outtextxy(x,y,tim);
+    outtextxy(x+16,y,":");
+    outtextxy(x+42,y,":");
+    sprintf(tim,"%d",t.ti_min);
+    outtextxy(x+26,y,tim);
+    sprintf(tim,"%d",t.ti_sec);
+    outtextxy(x+50,y,tim);
+
+    k++;
+    if(k==10)
+    {
+      k=0;
+      beep(100,50);
+    }
+    else
+    delay(100);
+    t_sec = t.ti_sec;
+    t_min = t.ti_min;
+    clear(x+50,y,x+70,y+8,0);
+    if(t_sec >= 59)
+    clear(x+26,y,x+46,y+8,0);
+    if(t_min >= 59)
+    clear(x,y,x+20,y+8,0);
+
+    setcolor(0);
+    setfillstyle(1,0);
+    line_at_angle(130,ang_hour-6,1);
+    line_at_angle(150,ang_min-4,1);
+    line_at_angle(170,ang_sec,1);
+    line_at_angle(20,180+ang_sec,1);
+    ang_sec++;
+  }
+
+  closegraph();
+}
+void frame()
+{
+  int midx,midy;
+  float angle=0;
+  float x,y;
+  midx=getmaxx()/2;
+  midy=getmaxy()/2;
+
+  setlinestyle(1,1,3);
+  setcolor(2);
+  circle(midx,midy,223);
+  setcolor(15);
+  circle(midx,midy,220);
+  setcolor(12);
+  circle(midx,midy,217);
+  setlinestyle(1,1,3);
+  setfillstyle(1,2);
+  setcolor(4);
+  for(int i=0;i<=60;i++)
+  {
+    x=cos((angle/180)*M_PI)*190;
+    y=sin((angle/180)*M_PI)*190;
+    if(int(angle)%30!=0)
+    circle(midx+x,midy+y,2);
+    angle+=6;
+  }
+  angle=0;
+  setfillstyle(1,4);
+  setlinestyle(0,1,2);
+  for(i=0;i<12;i++)
+  {
+    setcolor(13);
+    x=cos((angle/180)*M_PI)*190;
+    y=sin((angle/180)*M_PI)*190;
+    if(i%3==0)
+    {
+//      fillellipse(midx+x,midy+y,6,6);
+      setcolor(10);
+      star_in(midx+x, midy+y, 12, 6, 5, 18, 0);
+      setcolor(14);
+      star_in(midx+x, midy+y, 6, 3, 5, 18, 0);
+    }
+    else
+ //   fillellipse(midx+x,midy+y,4,4);
+    star_in(midx+x, midy+y, 8, 3, 5, 18, 0);
+    angle+=30;
+  }
+}
+
+void line_at_angle(int radius, float angle, int flag)
+{
+  float x,y,x1,y1,x2,y2,x3,y3;
+  int midx,midy;
+  angle-=90;
+
+  midx=getmaxx()/2;
+  midy=getmaxy()/2;
+
+  x=cos((angle/180)*M_PI)*radius;
+  y=sin((angle/180)*M_PI)*radius;
+
+  setlinestyle(0,1,3);
+  if(flag==1)
+  line(midx,midy,midx+x,midy+y);
+  if(flag==2)
+  {
+    setlinestyle(0,1,1);
+    x2=cos(((angle+3)/180)*M_PI)*(radius-25);
+    y2=sin(((angle+3)/180)*M_PI)*(radius-25);
+    x3=cos(((angle-3)/180)*M_PI)*(radius-25);
+    y3=sin(((angle-3)/180)*M_PI)*(radius-25);
+    int
+poly1[10]={midx,midy,midx+x2,midy+y2,midx+x,midy+y,midx+x3,midy+y3,midx,mi
+dy};
+    fillpoly(5,poly1);
+    setcolor(0);
+    x2=cos(((angle)/180)*M_PI)*(radius+1);
+    y2=sin(((angle)/180)*M_PI)*(radius+1);
+    x3=cos(((angle-4)/180)*M_PI)*(radius-25);
+    y3=sin(((angle-4)/180)*M_PI)*(radius-25);
+    line(midx+x2,midy+y2,midx+x3,midy+y3);
+    line(midx+x,midy+y,midx+x3,midy+y3);
+  }
+  else if(flag==3)
+  {
+    setlinestyle(0,1,1);
+    x2=cos(((angle+5)/180)*M_PI)*(radius-30);
+    y2=sin(((angle+5)/180)*M_PI)*(radius-30);
+    x3=cos(((angle-5)/180)*M_PI)*(radius-30);
+    y3=sin(((angle-5)/180)*M_PI)*(radius-30);
+    int
+poly1[10]={midx,midy,midx+x2,midy+y2,midx+x,midy+y,midx+x3,midy+y3,midx,mi
+dy};
+    fillpoly(5,poly1);
+    setcolor(0);
+    x2=cos(((angle)/180)*M_PI)*(radius+1);
+    y2=sin(((angle)/180)*M_PI)*(radius+1);
+    x3=cos(((angle-6)/180)*M_PI)*(radius-30);
+    y3=sin(((angle-6)/180)*M_PI)*(radius-30);
+    line(midx+x2,midy+y2,midx+x3,midy+y3);
+    line(midx+x,midy+y,midx+x3,midy+y3);
+  }
+}
+void beep(int fre,int wait)
+{
+  sound(fre);
+  delay(wait);
+  nosound();
+}
+  void star_in(int x, int y, int r1, int r2, int points, float
+angle_intial1, float offset)
+  {
+    float angle, theta;
+    int number = 0;
+    float xi1, yi1, xf1, yf1, xc1, yc1;
+    float xi2, yi2, xf2, yf2, xc2, yc2;
+    float angle_intial2;
+    float xt,yt;
+
+    theta = 360 / points;
+    angle_intial2 = angle_intial1 + (theta / 2) + offset;
+    angle_intial1 = (angle_intial1 * M_PI) / 180;
+    angle_intial2 = (angle_intial2 * M_PI) / 180;
+
+    angle = theta;
+
+    xc1 = x + (r1 * cos(angle_intial1)),
+    yc1 = y - (r1 * sin(angle_intial1));
+    xc2 = x + (r2 * cos(angle_intial2)),
+    yc2 = y - (r2 * sin(angle_intial2));
+
+    xi1 = xc1,
+    yi1 = yc1;
+    xi2 = xc2,
+    yi2 = yc2;
+
+    xt = xc1;
+    yt = yc1;
+
+    while(number <= points + 1)
+    {
+      angle = (angle * M_PI) / 180;
+
+      xc1 = xc1 - x;
+      yc1 = yc1 - y;
+      xc2 = xc2 - x;
+      yc2 = yc2 - y;
+
+      xf1 = ( xc1 * cos(angle) ) - ( yc1 * sin( angle ) );
+      yf1 = ( xc1 * sin(angle) ) + ( yc1 * cos( angle ) );
+      xf2 = ( xc2 * cos(angle) ) - ( yc2 * sin( angle ) );
+      yf2 = ( xc2 * sin(angle) ) + ( yc2 * cos( angle ) );
+
+      xc1 = xc1 + x;
+      yc1 = yc1 + y;
+      xc2 = xc2 + x;
+      yc2 = yc2 + y;
+
+      xf1 = xf1 + x;
+      yf1 = yf1 + y;
+      xf2 = xf2 + x;
+      yf2 = yf2 + y;
+
+      if(number != points + 1)
+      line(xi1, yi1, xi2, yi2);
+      line(xt, yt, xi2, yi2);
+
+      xt = xi1;
+      yt = yi1;
+
+      xi1 = xf1,
+      yi1 = yf1;
+      xi2 = xf2,
+      yi2 = yf2;
+
+      number++;
+      angle = theta * number;
+    }
+  }
+
+void clear(int x1, int y1, int x2, int y2, int col)
+{
+    int x,y;
+    for(x=x1;x<=x2;x++)
+    for(y=y1;y<=y2;y++)
+    putpixel(x,y,col);
+}
