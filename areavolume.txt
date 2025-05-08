@@ -1,0 +1,358 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<ctype.h>
+#include<string.h>
+#include<math.h>
+#define pi 3.1428571
+float calculating_circle_surround()
+{
+float redius,surround;
+printf("To get the surround value please enter the redius value : ");
+scanf("%f",&redius);
+surround=2*pi*redius;
+printf("The surround is : %f",surround);
+return(surround);
+}
+float calculating_circle_area()
+{
+float redius,area;
+printf("
+
+To get the area value please enter the redius value : ");
+scanf("%f",&redius);
+area=(redius*redius)*pi;
+printf("The area is : %f
+
+",area);
+return(area);
+}
+float calculating_square_surround()
+{
+float edge,surround;
+printf("
+
+To get the surround value please enter the edge value : ");
+scanf("%f",&edge);
+surround=4*edge;
+printf("The surround is : %f
+
+",surround);
+return(surround);
+}
+float calculating_square_area()
+{
+float edge,area;
+printf("
+
+To get the area value please enter the edge value : ");
+scanf("%f",&edge);
+area=edge*edge;
+printf("The area is : %f
+
+",area);
+return(area);
+}
+float calculating_quad_surround()
+{
+float edge1,edge2,surround;
+printf("
+
+To get the surround value please enter the edge1 value : 
+");
+scanf("%f",&edge1);
+printf("
+
+To get the surround value please enter the edge2 value : 
+");
+scanf("%f",&edge2);
+surround=2*(edge1+edge2);
+printf("The area is : %f
+
+",surround);
+return(surround);
+}
+float calculating_quad_area()
+{
+float edge1,edge2,area;
+printf("
+
+To get the area value please enter the edge1 value : ");
+scanf("%f",&edge1);
+printf("
+
+To get the area value please enter the edge2 value : ");
+scanf("%f",&edge2);
+area=edge1*edge2;
+printf("The area is : %f
+
+",area);
+return(area);
+}
+float calculating_triangle_surround()
+{
+float edge1,edge2,edge3,surround;
+printf("
+
+To get the surround value please enter the edge1 value : 
+");
+scanf("%f",&edge1);
+printf("
+
+To get the surround value please enter the edge2 value : 
+");
+scanf("%f",&edge2);
+printf("
+
+To get the surround value please enter the edge3 value : 
+");
+scanf("%f",&edge3);
+surround=edge1+edge2+edge3;
+printf("The area is : %f
+
+",surround);
+return(surround);
+}
+float calculating_triangle_area()
+{
+float edge1,edge2,angle,area;
+printf("
+
+To get the area value please enter the edge1 value : ");
+scanf("%f",&edge1);
+printf("
+
+To get the area value please enter the edge2 value : ");
+scanf("%f",&edge2);
+printf("
+
+To get the area value please enter the angle value : ");
+scanf("%f",&angle);
+angle=(angle*pi)/180;
+area=.5*edge1*edge2*(sin(angle));
+printf("The area is : %f
+
+",area);
+return(area);
+}
+main()
+{
+first:
+char a,b,c;
+printf("Please select the operation:-
+");
+printf("----------------------------
+
+");
+printf("(C)ircle calculations
+");
+printf("(S)quare calculations
+");
+printf("(Q)uadeangles calculations
+");
+printf("(T)riangles calculations
+");
+printf("(E)xit
+
+
+:
+
+");
+a=getch();
+if(a=='c')
+{
+back_to_c:
+clrscr();
+printf("Select an operation:-
+");
+printf("--------------------
+
+");
+printf("(S)urround of the circle
+");
+printf("(A)rea of the circle
+");
+printf("(B)ack
+
+
+:
+");
+b=getch();
+if(b=='s'){clrscr();
+calculating_circle_surround();
+do_anther_op_cs:
+printf("
+anther circle surround operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_circle_surround();goto do_anther_op_cs;getch();};
+if(c=='n'){goto back_to_c;};
+exit(0);
+}
+if(b=='a'){clrscr();
+calculating_circle_area();
+do_anther_op_ca:
+printf("
+anther circle area operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_circle_area();goto do_anther_op_ca;getch();};
+if(c=='n'){goto back_to_c;};
+exit(0);
+}
+if(b=='b'){clrscr();
+goto first;}
+}
+if(a=='s')
+{
+back_to_s:
+clrscr();
+printf("Select an operation:-
+");
+printf("--------------------
+
+");
+printf("(S)urround of the square
+");
+printf("(A)rea of the square
+");
+printf("(B)ack
+
+
+:
+");
+b=getch();
+if(b=='s'){clrscr();
+calculating_square_surround();
+do_anther_op_ss:
+printf("
+anther square surround operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_square_surround();goto do_anther_op_ss;getch();};
+if(c=='n'){goto back_to_s;};
+exit(0);
+}
+if(b=='a'){clrscr();
+calculating_square_area();
+do_anther_op_sa:
+printf("
+anther square area operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_square_area();goto do_anther_op_sa;getch();};
+if(c=='n'){goto back_to_s;};
+exit(0);
+}
+if(b=='b'){clrscr();
+goto first;}
+}
+if(a=='q')
+{
+back_to_q:
+clrscr();
+printf("Select an operation:-
+");
+printf("--------------------
+
+");
+printf("(S)urround of the quadangles
+");
+printf("(A)rea of the quadangles
+");
+printf("(B)ack
+
+
+:
+");
+b=getch();
+if(b=='s'){clrscr();
+calculating_quad_surround();
+do_anther_op_qs:
+printf("
+anther quadangles surround operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_quad_surround();goto do_anther_op_ss;getch();};
+if(c=='n'){goto back_to_q;};
+exit(0);
+}
+if(b=='a'){clrscr();
+calculating_quad_area();
+do_anther_op_qa:
+printf("
+anther quadangles area operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_quad_area();goto do_anther_op_qa;getch();};
+if(c=='n'){goto back_to_q;};
+exit(0);
+}
+if(b=='b'){clrscr();
+goto first;}
+}
+if(a=='t')
+{
+back_to_t:
+clrscr();
+printf("Select an operation:-
+");
+printf("--------------------
+
+");
+printf("(S)urround of the triangles
+");
+printf("(A)rea of the triangles
+");
+printf("(B)ack
+
+
+:
+");
+b=getch();
+if(b=='s'){clrscr();
+calculating_triangle_surround();
+do_anther_op_ts:
+printf("
+anther triangles surround operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_triangle_surround();goto do_anther_op_ts;getch();};
+if(c=='n'){goto back_to_t;};
+exit(0);
+}
+if(b=='a'){clrscr();
+calculating_triangle_area();
+do_anther_op_ta:
+printf("
+anther triangles area operation?(Y/N)
+");
+c=getch();
+if(c=='y'){clrscr();
+calculating_triangle_area();goto do_anther_op_ta;getch();};
+if(c=='n'){goto back_to_t;};
+exit(0);
+}
+if(b=='b'){clrscr();
+goto first;}
+}
+if(a=='e'){clrscr();
+printf("Thank you for using our software...
+
+
+");
+printf("Engineer/Muhammad Saeed Badawy
+
+
+");
+printf("        
+war_device@hotmail.com");}
+getch();
+}
